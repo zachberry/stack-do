@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" ng-app>
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -7,24 +7,29 @@
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width">
 
-		<link rel="stylesheet" href="css/normalize.min.css">
 		<link rel="stylesheet" href="css/main.css">
 
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
 		<script src="js/vendor/modernizr-2.6.2.min.js"></script>
 	</head>
-	<body>
+	<body ng-controller="ProjectCtrl">
 
 		<div class="in-progress">
 			<h1>Stack Do</h1>
 
-			<input id="input" placeholder="Add a new project" />
+			<form ng-submit="addProject()">
+				<input id="input" placeholder="Add a new project" ng-model="projectName" />
+				<input type="submit" />
+			</form>
 
 			<ul class="in-progress" id="list">
+				<li ng-repeat="project in projects | filter:{done:false}" ng-click="resumeProject(project)" ng-cloak>{{project.name}}<div class="close-btn" unselectable="on" ng-click="completeProject(project, $event)">×</div></li>
 			</ul>
 		</div>
 
 		<div class="completed">
 			<ul class="completed" id="completed">
+				<li ng-repeat="project in projects | filter:{done:true}" ng-click="uncompleteProject(project)" ng-cloak>{{project.name}}<div class="close-btn" unselectable="on" ng-click="deleteProject(project)">×</div></li>
 			</ul>
 		</div>
 
